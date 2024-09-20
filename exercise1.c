@@ -1,16 +1,16 @@
-/***********************************************/
-/* Program: exercise1     Date:                */
-/* Authors:                                    */
-/*                                             */
-/* Program that generates two random nunmbers  */
-/* between two given numbers                   */
-/*                                             */
-/* Input: Command Line                         */
-/* -limInf: lower limit                        */
-/* -limSup: upper limit                        */
-/* -numN: ammount of numbers                   */
-/* Output: 0: OK, -1: ERR                      */
-/***********************************************/
+/**************************************************/
+/* Program: exercise1     Date:  20-09-24         */
+/* Authors: Javier Moreno & Guillermo Santaolalla */
+/*                                                */
+/* Program that generates two random nunmbers     */
+/* between two given numbers                      */
+/*                                                */
+/* Input: Command Line                            */
+/* -limInf: lower limit                           */
+/* -limSup: upper limit                           */
+/* -numN: ammount of numbers                      */
+/* Output: 0: OK, -1: ERR                          */
+/**************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -22,7 +22,8 @@ int main(int argc, char** argv)
 {
   int i;
   unsigned int inf, sup, num, j;
-
+  int *num_frecuency;
+  FILE *f;
   srand(time(NULL));
 
   if (argc != 7) {
@@ -35,8 +36,8 @@ int main(int argc, char** argv)
     exit(-1);
   }
   printf("Practice no 1, Section 1\n");
-  printf("Done by: Your names\n");
-  printf("Grupo: Your group\n");
+  printf("Done by: Javier Moreno y Guillermo Santaolalla\n");
+  printf("Grupo: SI\n");
 
   /* check command line */
   for(i = 1; i < argc; i++) {
@@ -51,11 +52,25 @@ int main(int argc, char** argv)
     }
   }
 
-  /* print data */
+  /* allocate memory for the array that stores the frecuency of each number */
+  num_frecuency = calloc((sup - inf + 1), sizeof(int));
+  if (num_frecuency == NULL) {
+    printf("error");
+    return;
+  }
+  
+  /* store data */
   for(j = 0; j < num; j++) { 
-    printf("%d\n", random_num(inf, sup));
+
+    num_frecuency[random_num(inf, sup) - inf]++;
   }
 
+  f = fopen("results.txt", "w");
+  for (i = 0; i < sup - inf + 1; i++) {
+    fprintf(f, "%d %d\n", inf + i, num_frecuency[i]);
+  }
+  fclose(f);
+  free(num_frecuency);
   return 0;
 }
 

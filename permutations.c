@@ -11,10 +11,12 @@
 
 
 #include "permutations.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 /***************************************************/
-/* Function: random_num Date:                      */
-/* Authors:                                        */
+/* Function: random_num Date: 9/20/2024            */
+/* Authors: Javier Moreno & Guillermo Santaolalla  */
 /*                                                 */
 /* Rutine that generates a random number           */
 /* between two given numbers                       */
@@ -27,7 +29,8 @@
 /***************************************************/
 int random_num(int inf, int sup)
 {
-  /* your code */
+  if(inf>sup) return ERR;
+  return inf + (int)((double)(sup - inf + 1)*rand()/(RAND_MAX+1.0));
 }
 
 /***************************************************/
