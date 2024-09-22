@@ -20,7 +20,7 @@
 
 int main(int argc, char** argv)
 {
-  int i;
+  int i, temp_num;
   unsigned int inf, sup, num, j;
   int *num_frecuency;
   FILE *f;
@@ -52,23 +52,39 @@ int main(int argc, char** argv)
     }
   }
 
+  if (inf < 0 || sup < 0 || inf > sup || num <= 0) {
+    fprintf(stderr, "Parameters outside valid range\n");
+    exit(-1);
+  }
+
   /* allocate memory for the array that stores the frecuency of each number */
   num_frecuency = calloc((sup - inf + 1), sizeof(int));
   if (num_frecuency == NULL) {
-    printf("error");
-    return;
+    fprintf(stderr, "Error allocating memory for the frecuency array");
+    exit(-1);
   }
   
   /* store data */
   for(j = 0; j < num; j++) { 
+    temp_num = random_num(inf, sup);
+    if (temp_num == ERR) {
+      free(num_frecuency);
+      exit(-1);
+    }
 
-    num_frecuency[random_num(inf, sup) - inf]++;
+    num_frecuency[temp_num - inf]++;
   }
 
   f = fopen("results.txt", "w");
+  if (f == NULL) {
+    fprintf(stderr, "Error opening file to write");
+    exit(-1);
+  }
+
   for (i = 0; i < sup - inf + 1; i++) {
     fprintf(f, "%d %d\n", inf + i, num_frecuency[i]);
   }
+
   fclose(f);
   free(num_frecuency);
   return 0;
