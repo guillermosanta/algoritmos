@@ -48,7 +48,27 @@ int random_num(int inf, int sup)
 /***************************************************/
 int* generate_perm(int N)
 {
-  /* your code */
+  int i, temp, random, *arr;
+  
+  arr = (int *) malloc(N * sizeof(int));
+  if (arr == NULL) return NULL;
+
+  for (i = 1; i <= N; i++) {
+    arr[i - 1] = i;
+  }
+
+  for (i = 0; i < N; i++) {
+    random = random_num(0, N - 1);
+    if (random == ERR) {
+      free(arr);
+      return NULL;
+    }
+    
+    temp = arr[i];
+    arr[i] = arr[random];
+    arr[random] = temp;    
+  }
+  return arr;
 }
 
 /***************************************************/
@@ -68,5 +88,18 @@ int* generate_perm(int N)
 /***************************************************/
 int** generate_permutations(int n_perms, int N)
 {
-/* your code */
+  int **matrix = NULL, i;
+  
+  if(n_perms <=0 || N<= 0) return NULL;
+  if(!(matrix = (int**) calloc(n_perms, sizeof(int*)))) return NULL;
+
+  for(i=0; i<n_perms; i++){
+    if(!(matrix[i] = generate_perm(N))){
+      for(i--; i>=0; i--){
+        free(matrix[i]);
+      }
+    }
+  }
+
+  return matrix;
 }
