@@ -50,6 +50,7 @@ int* generate_perm(int N)
 {
   int i, temp, random, *arr;
   
+  if(N <= 0) return NULL;
   arr = (int *) malloc(N * sizeof(int));
   if (arr == NULL) return NULL;
 

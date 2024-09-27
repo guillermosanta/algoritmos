@@ -22,7 +22,7 @@ short average_sorting_time(pfunc_sort metodo,
                               int N, 
                               PTIME_AA ptime)
 {
-/* Your code */
+  /* Your code */
 }
 
 /***************************************************/
