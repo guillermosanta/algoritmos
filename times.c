@@ -19,7 +19,7 @@
 /*                                                 */
 /* Your documentation                              */
 /***************************************************/
-short average_sorting_time(pfunc_sort metodo, 
+short average_sorting_time(pfunc_sort method, 
                               int n_perms,
                               int N, 
                               PTIME_AA ptime)
@@ -28,7 +28,7 @@ short average_sorting_time(pfunc_sort metodo,
   double total_ob = 0.0, avg_time = 0.0;
   clock_t start_time, end_time;
 
-  if(!metodo || n_perms <= 0 || N <= 0 || !ptime) return ERR;
+  if(!method || n_perms <= 0 || N <= 0 || !ptime) return ERR;
 
   ptime->n_elems = n_perms;
   ptime->N = N;
@@ -38,13 +38,13 @@ short average_sorting_time(pfunc_sort metodo,
   for(i=0; i<n_perms; i++){
     start_time = clock(); /*Get the initial time*/
     
-    if((current_ob = metodo(matrix[i], 0, N-1))== ERR) return ERR;
+    if((current_ob = method(matrix[i], 0, N-1))== ERR) return ERR;
+    end_time = clock(); /*Get the last time*/
     if(i=0) ptime->min_ob = ptime->max_ob = current_ob;
     else if (current_ob < ptime->min_ob) ptime->min_ob = current_ob;
     else if (current_ob > ptime->max_ob) ptime->max_ob = current_ob;
     total_ob += current_ob;
 
-    end_time = clock(); /*Get the last time*/
     avg_time += (double)(end_time - start_time) / CLOCKS_PER_SEC; /*Calculate the average time per interaction. We pass from ticks to seconds dividing by CLOCKS_PER_SEC*/
   }
   
