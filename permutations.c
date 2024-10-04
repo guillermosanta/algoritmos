@@ -3,7 +3,7 @@
  * Descripcion: Implementation of function that generate permutations
  *
  * File: permutations.c
- * Autor: Carlos Aguirre
+ * Autor: Javier Moreno & Guillermo Santaolalla
  * Version: 1.1
  * Fecha: 21-09-2019
  *
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 
 /***************************************************/
-/* Function: random_num Date: 9/20/2024            */
+/* Function: random_num Date: 09/20/2024           */
 /* Authors: Javier Moreno & Guillermo Santaolalla  */
 /*                                                 */
 /* Rutine that generates a random number           */
@@ -34,8 +34,8 @@ int random_num(int inf, int sup)
 }
 
 /***************************************************/
-/* Function: generate_perm Date:                   */
-/* Authors:                                        */
+/* Function: generate_perm Date: 09/27/2024        */
+/* Authors: Javier Moreno & Guillermo Santaolalla  */
 /*                                                 */
 /* Rutine that generates a random permutation      */
 /*                                                 */
@@ -73,8 +73,8 @@ int* generate_perm(int N)
 }
 
 /***************************************************/
-/* Function: generate_permutations Date:           */
-/* Authors:                                        */
+/* Function: generate_permutations Date: 09/27/2024*/
+/* Authors: Javier Moreno & Guillermo Santaolalla  */
 /*                                                 */
 /* Function that generates n_perms random          */
 /* permutations with N elements                    */
