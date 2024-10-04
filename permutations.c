@@ -99,6 +99,8 @@ int** generate_permutations(int n_perms, int N)
       for(i--; i>=0; i--){
         free(matrix[i]);
       }
+      free(matrix);
+      return NULL;
     }
   }
 
