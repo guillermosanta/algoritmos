@@ -3,7 +3,7 @@
  * Descripcion: Implementation of time measurement functions
  *
  * Fichero: times.c
- * Autor: Carlos Aguirre Maeso
+ * Autor: Javier Moreno & Guillermo Santaolalla
  * Version: 1.0
  * Fecha: 16-09-2019
  *
@@ -26,9 +26,20 @@ int cceil(double x)
 }
 
 /***************************************************/
-/* Function: average_sorting_time Date:            */
+/* Function: average_sorting_time Date: 09/27/2024 */
+/* Authors: Javier Moreno & Guillermo Santaolalla  */
 /*                                                 */
-/* Your documentation                              */
+/* Rutine that calculates the time it takes to     */
+/* sort some arrays                                */
+/*                                                 */
+/* Input:                                          */
+/* pfunc_sort method: method of sorting used       */
+/* int n_perms: number of permutations done        */
+/* int N: size of each permutation                 */
+/* PTIME_AA ptime: pointer to time structure where */
+/* data is stored                                  */
+/* Output:                                         */
+/* short: OK or ERR                                */
 /***************************************************/
 short average_sorting_time(pfunc_sort method,
                            int n_perms,
@@ -83,14 +94,26 @@ short average_sorting_time(pfunc_sort method,
   return OK;
 }
 
-/***************************************************/
-/* Function: generate_sorting_times Date:          */
-/*                                                 */
-/* Your documentation                              */
-/***************************************************/
-short generate_sorting_times(pfunc_sort method, char *file,
-                             int num_min, int num_max,
-                             int incr, int n_perms)
+/*****************************************************/
+/* Function: generate_sorting_times Date: 10/04/2024 */
+/* Authors: Javier Moreno & Guillermo Santaolalla    */
+/*                                                   */
+/* Rutine                                            */
+/*                                                   */
+/*                                                   */
+/* Input:                                            */
+/* pfunc_sort method: method of sorting used         */
+/* char* file:                                       */
+/* int num_min:                                      */
+/* int num_max:                                      */
+/* int incr:                                         */
+/* int n_perms:                                      */
+/* Output:                                           */
+/* short: OK or ERR                                  */
+/*****************************************************/
+short generate_sorting_times(pfunc_sort method, char* file, 
+                                int num_min, int num_max, 
+                                int incr, int n_perms)
 {
   PTIME_AA ptime;
   int i, n_rows;
@@ -129,9 +152,19 @@ short generate_sorting_times(pfunc_sort method, char *file,
 }
 
 /***************************************************/
-/* Function: save_time_table Date:                 */
+/* Function: save_time_table Date: 10/04/2024      */
+/* Authors: Javier Moreno & Guillermo Santaolalla  */
 /*                                                 */
-/* Your documentation                              */
+/* Rutine                                          */
+/*                                                 */
+/*                                                 */
+/* Input:                                          */
+/* char* file:                                     */
+/* PTIME_AA ptime: pointer to time structure where */
+/* data is stored                                  */
+/* int n_times:                                    */
+/* Output:                                         */
+/* short: OK or ERR                                */
 /***************************************************/
 short save_time_table(char *file, PTIME_AA ptime, int n_times)
 {
