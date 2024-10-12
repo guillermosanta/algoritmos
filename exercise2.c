@@ -10,14 +10,14 @@
 /* Output: 0: OK, -1: ERR                               */
 /********************************************************/
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
 #include "permutations.h"
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
   int i;
   unsigned int num, size, j, k;
   int* perm = NULL;
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
   printf("Group: Your group\n");
 
   /* check command line */
-  for(i = 1; i < argc; i++) {
+  for (i = 1; i < argc; i++) {
     if (strcmp(argv[i], "-size") == 0) {
       size = atoi(argv[++i]);
     } else if (strcmp(argv[i], "-numP") == 0) {
@@ -49,13 +49,13 @@ int main(int argc, char** argv)
   }
 
   /* print result */
-  for(j = 0; j < num; j++) { 
+  for (j = 0; j < num; j++) {
     perm = generate_perm(size);
     if (perm == NULL) { /* error */
       printf("Error: Out of memory\n");
       exit(-1);
     } else {
-      for(k = 0; k < size; k++) { /* print each element */
+      for (k = 0; k < size; k++) { /* print each element */
         printf("%d ", perm[k]);
       }
       printf("\n");
@@ -65,4 +65,3 @@ int main(int argc, char** argv)
 
   return 0;
 }
-

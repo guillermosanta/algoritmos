@@ -11,20 +11,20 @@
 /* Output: 0: OK, -1: ERR                         */
 /**************************************************/
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
 #include "permutations.h"
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
   int i;
   unsigned int n_perms, tamanio, j, k;
   int** perms = NULL;
 
   srand(time(NULL));
-  
+
   if (argc != 5) {
     fprintf(stderr, "Error in input parameters:\n\n");
     fprintf(stderr, "%s -size <int> -numP <int>\n", argv[0]);
@@ -38,9 +38,8 @@ int main(int argc, char** argv)
   printf("Done by: your names\n");
   printf("Group: Your group\n");
 
-
   /* check command line la linea de comandos */
-  for(i = 1; i < argc; i++) {
+  for (i = 1; i < argc; i++) {
     if (strcmp(argv[i], "-size") == 0) {
       tamanio = atoi(argv[++i]);
     } else if (strcmp(argv[i], "-numP") == 0) {
@@ -56,8 +55,8 @@ int main(int argc, char** argv)
     printf("Error: Out of memory\n");
     exit(-1);
   } else {
-    for(j = 0; j < n_perms; j++) { /* for each permutation */
-      for(k = 0; k < tamanio; k++) {
+    for (j = 0; j < n_perms; j++) { /* for each permutation */
+      for (k = 0; k < tamanio; k++) {
         printf("%d ", perms[j][k]); /* print each element */
       }
       printf("\n");
@@ -69,4 +68,3 @@ int main(int argc, char** argv)
 
   return 0;
 }
-

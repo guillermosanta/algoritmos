@@ -12,14 +12,14 @@
 /* Output: 0: OK, -1: ERR                          */
 /**************************************************/
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
 #include "permutations.h"
 
-int main(int argc, char** argv)
-{
+int main(int argc, char **argv) {
   int i, temp_num;
   unsigned int inf, sup, num, j;
   int *num_frecuency;
@@ -40,7 +40,7 @@ int main(int argc, char** argv)
   printf("Grupo: SI\n");
 
   /* check command line */
-  for(i = 1; i < argc; i++) {
+  for (i = 1; i < argc; i++) {
     if (strcmp(argv[i], "-limInf") == 0) {
       inf = atoi(argv[++i]);
     } else if (strcmp(argv[i], "-limSup") == 0) {
@@ -63,9 +63,9 @@ int main(int argc, char** argv)
     fprintf(stderr, "Error allocating memory for the frecuency array");
     exit(-1);
   }
-  
+
   /* store data */
-  for(j = 0; j < num; j++) { 
+  for (j = 0; j < num; j++) {
     temp_num = random_num(inf, sup);
     if (temp_num == ERR) {
       free(num_frecuency);
@@ -89,4 +89,3 @@ int main(int argc, char** argv)
   free(num_frecuency);
   return 0;
 }
-

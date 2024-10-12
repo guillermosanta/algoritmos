@@ -1,6 +1,6 @@
 /**
  *
- * Descripcion: Header file for sorting functions 
+ * Descripcion: Header file for sorting functions
  *
  * Fichero: sorting.h
  * Autor: Carlos Aguirre
@@ -15,17 +15,16 @@
 /* constants */
 
 #ifndef ERR
-  #define ERR -1
-  #define OK (!(ERR))
+#define ERR -1
+#define OK (!(ERR))
 #endif
 
 /* type definitions */
-typedef int (* pfunc_sort)(int*, int, int);
+typedef int (*pfunc_sort)(int*, int, int);
 
 /* Functions */
 
 int BubbleSort(int* array, int ip, int iu);
 int BubbleSortFlag(int* array, int ip, int iu);
-
 
 #endif
