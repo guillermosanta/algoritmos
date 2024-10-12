@@ -3,7 +3,7 @@
  * Descripcion: Header for functions for permutations generation
  *
  * Fichero: permutations.h
- * Autor: Carlos Aguirre 
+ * Autor: Carlos Aguirre
  * Version: 1.1
  * Fecha: 16-09-2019
  *
@@ -15,8 +15,8 @@
 /* constants */
 
 #ifndef ERR
-  #define ERR -1
-  #define OK (!(ERR))
+#define ERR -1
+#define OK (!(ERR))
 #endif
 
 int random_num(int inf, int sup);

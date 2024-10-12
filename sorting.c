@@ -9,7 +9,6 @@
  *
  */
 
-
 #include "sorting.h"
 
 /***************************************************/
@@ -25,8 +24,7 @@
 /* Output:                                         */
 /* int: number of bos done                         */
 /***************************************************/
-int BubbleSort(int* array, int ip, int iu)
-{
+int BubbleSort(int* array, int ip, int iu) {
   int i, j, temp, ob_counter = 0;
 
   if (!array || ip > iu) return ERR;
@@ -58,12 +56,11 @@ int BubbleSort(int* array, int ip, int iu)
 /* Output:                                         */
 /* int: number of bos done                         */
 /***************************************************/
-int BubbleSortFlag(int* array, int ip, int iu)
-{
+int BubbleSortFlag(int* array, int ip, int iu) {
   int i, j, temp, ob_counter = 0, flag = 1;
 
   if (!array || ip > iu) return ERR;
-  for (i = iu; flag==1 && i >= ip + 1; i--) {
+  for (i = iu; flag == 1 && i >= ip + 1; i--) {
     flag = 0;
     for (j = ip; j <= i - 1; j++) {
       ob_counter++;
@@ -77,6 +74,3 @@ int BubbleSortFlag(int* array, int ip, int iu)
   }
   return ob_counter;
 }
-
-
-

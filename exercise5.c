@@ -16,15 +16,15 @@
 /* -1 otherwise                                            */
 /***********************************************************/
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
 #include "sorting.h"
 #include "times.h"
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
   int i, num_min, num_max, incr, n_perms;
   char nombre[256];
   short ret;
@@ -47,9 +47,9 @@ int main(int argc, char** argv)
   printf("Practice number 1, section 5\n");
   printf("Done by: your names\n");
   printf("Group: Your group\n");
-  
+
   /* check command line */
-  for(i = 1; i < argc ; i++) {
+  for (i = 1; i < argc; i++) {
     if (strcmp(argv[i], "-num_min") == 0) {
       num_min = atoi(argv[++i]);
     } else if (strcmp(argv[i], "-num_max") == 0) {
@@ -66,7 +66,7 @@ int main(int argc, char** argv)
   }
 
   /* compute times */
-  ret = generate_sorting_times(BubbleSort, nombre,num_min, num_max,incr, n_perms);
+  ret = generate_sorting_times(BubbleSort, nombre, num_min, num_max, incr, n_perms);
   if (ret == ERR) { /* ERR_TIME should be a negative number */
     printf("Error in function generate_sorting_times\n");
     exit(-1);
@@ -75,4 +75,3 @@ int main(int argc, char** argv)
 
   return 0;
 }
-
