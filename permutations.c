@@ -9,8 +9,8 @@
  *
  */
 
-
 #include "permutations.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -19,7 +19,7 @@
 /* Authors: Javier Moreno & Guillermo Santaolalla  */
 /*                                                 */
 /* Rutine that generates a random number           */
-/* between two given numbers                       */
+/* between two given numbers, both included        */
 /*                                                 */
 /* Input:                                          */
 /* int inf: lower limit                            */
@@ -27,10 +27,9 @@
 /* Output:                                         */
 /* int: random number                              */
 /***************************************************/
-int random_num(int inf, int sup)
-{
-  if(inf > sup) return ERR;
-  return inf + (int)((double)(sup - inf + 1)*rand()/(RAND_MAX+1.0));
+int random_num(int inf, int sup) {
+  if (inf > sup) return ERR;
+  return inf + (int)((double)(sup - inf + 1) * rand() / (RAND_MAX + 1.0));
 }
 
 /***************************************************/
@@ -46,12 +45,11 @@ int random_num(int inf, int sup)
 /* that contains the permitation                   */
 /* or NULL in case of error                        */
 /***************************************************/
-int* generate_perm(int N)
-{
+int *generate_perm(int N) {
   int i, temp, random, *arr;
-  
-  if(N <= 0) return NULL;
-  arr = (int *) malloc(N * sizeof(int));
+
+  if (N <= 0) return NULL;
+  arr = (int *)malloc(N * sizeof(int));
   if (arr == NULL) return NULL;
 
   for (i = 1; i <= N; i++) {
@@ -64,10 +62,10 @@ int* generate_perm(int N)
       free(arr);
       return NULL;
     }
-    
+
     temp = arr[i];
     arr[i] = arr[random];
-    arr[random] = temp;    
+    arr[random] = temp;
   }
   return arr;
 }
@@ -87,16 +85,15 @@ int* generate_perm(int N)
 /* to each of the permutations                     */
 /* NULL en case of error                           */
 /***************************************************/
-int** generate_permutations(int n_perms, int N)
-{
+int **generate_permutations(int n_perms, int N) {
   int **matrix = NULL, i;
-  
-  if(n_perms <=0 || N<= 0) return NULL;
-  if(!(matrix = (int**) calloc(n_perms, sizeof(int*)))) return NULL;
 
-  for(i=0; i<n_perms; i++){
-    if(!(matrix[i] = generate_perm(N))){
-      for(i--; i>=0; i--){
+  if (n_perms <= 0 || N <= 0) return NULL;
+  if (!(matrix = (int **)calloc(n_perms, sizeof(int *)))) return NULL;
+
+  for (i = 0; i < n_perms; i++) {
+    if (!(matrix[i] = generate_perm(N))) {
+      for (i--; i >= 0; i--) {
         free(matrix[i]);
       }
       free(matrix);
