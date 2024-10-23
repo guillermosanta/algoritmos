@@ -32,7 +32,7 @@ int random_num(int inf, int sup) {
 #ifndef BETTER_RAND
   return rand() % (sup - inf + 1) + inf;
 #else
-  return inf + (int)((double)(sup - inf + 1) * rand() / (RAND_MAX + 1.0));
+  return (int)(((double)(sup - inf + 1) / RAND_MAX) * rand() + inf);
 #endif
 }
 
