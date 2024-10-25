@@ -1,0 +1,12 @@
+./exercise5 -num_min 1 -num_max 5001 -incr 50 -numP 50 -outputFile results.txt
+set terminal png
+set output "BubbleSort_AvgOBs.png"
+
+gnuplot
+set terminal png
+set output "BubbleSort_AvgOBs.png"
+set title "BubbleSortFlag - Avg OBs v. N" 
+set xlabel "N"
+set ylabel "Avg OBs" 
+set xrange[0:5001]
+plot "results.txt" using 1:3 title ""

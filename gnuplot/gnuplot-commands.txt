@@ -1,6 +1,0 @@
-plot "results.txt" title "Frecuencia" with boxes, 100000 title "Valor esperado 10^5"
-set title "Histograma de frecuencias"
-set xlabel "Numero"
-set ylabel "Frecuencia"
-set xrange[1:100]
-set yrange[0:120000]
