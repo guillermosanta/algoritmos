@@ -6,5 +6,5 @@
         "time.h": "c",
         "stdio.h": "c"
     },
-    "explorer.excludeGitIgnore": false
+    "explorer.excludeGitIgnore": true
 }

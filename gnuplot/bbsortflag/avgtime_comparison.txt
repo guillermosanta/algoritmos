@@ -1,0 +1,13 @@
+./exercise5 -num_min 1 -num_max 5001 -incr 50 -numP 50 -outputFile results.txt
+set terminal png
+set output "BubbleSort_AvgTime.png"
+
+
+gnuplot
+set terminal png
+set output "BubbleSortFlag_AvgTime_Comparison.png"
+set title "BubbleSortFlag - Avg Time v. N" 
+set xlabel "N"
+set ylabel "Avg Time (s)" 
+set xrange[0:5001]
+plot "results.txt" title "", 1.3e-9*(x)**2 title "1.3e-9N^2" linewidth 2

@@ -1,0 +1,11 @@
+./exercise5 -num_min 1 -num_max 10001 -incr 50 -numP 1 -outputFile results.txt
+set terminal png
+set output "BubbleSort_AvgTime.png"
+
+
+gnuplot
+set title "BubbleSort - Avg Time v. N" 
+set xlabel "N"
+set ylabel "Avg Time (s)" 
+set xrange[0:10001]
+plot "results.txt" title ""
