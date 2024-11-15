@@ -15,6 +15,10 @@
 #include "sorting.h"
 
 #include <stdio.h>
+
+int CrearHeap(int* array, int n);
+int OrdenarHeap(int* array, int n);
+int Heapify(int* array, int n, int i);
 /***************************************************/
 /* Function: SelectSort    Date:  09/27/2024       */
 /* Authors: Javier Moreno & Guillermo Santaolalla  */
@@ -79,6 +83,23 @@ int BubbleSortFlag(int* array, int ip, int iu) {
   return ob_counter;
 }
 
+/***************************************************/
+/* Function: max    Date:  10/15/2024              */
+/* Authors: Javier Moreno & Guillermo Santaolalla  */
+/*                                                 */
+/* Given an array and three indeces,               */
+/* returns the index with the highest integer      */
+/*                                                 */
+/* Input:                                          */
+/* int* array: array of integers                   */
+/* int n: number of elements in array              */
+/* int first: first index                          */
+/* int second: second index                        */
+/* int third: third index                          */
+/* Output:                                         */
+/* int: The index that points                      */
+/* to the greatest integer                         */
+/***************************************************/
 int max(int* array, int n, int first, int second, int third) {
   if (!array || n <= 0 || n <= first || n <= second || n <= third) return ERR;
 
@@ -86,8 +107,51 @@ int max(int* array, int n, int first, int second, int third) {
                                       : (array[second] > array[third] ? second : third);
 }
 
+int HeapSort(int* array, int ip, int iu) {
+  int ob_counter = 0, ret;
+  if (!array || ip > iu) return ERR;
+
+  ret = CrearHeap(array, iu - ip + 1);
+  if (ret == ERR) return ERR;
+  ob_counter += ret;
+
+  ret = OrdenarHeap(array, iu - ip + 1);
+  if (ret == ERR) return ERR;
+  ob_counter += ret;
+
+  return ob_counter;
+}
+
+int CrearHeap(int* array, int n) {
+  int i, ob_counter = 0, ret;
+  if (!array || n <= 0) return ERR;
+
+  for (i = (n / 2) - 1; i >= 0; i--) {
+    ret = Heapify(array, n, i);
+    if (ret == ERR) return ERR;
+    ob_counter += ret;
+  }
+  return ob_counter;
+}
+
+int OrdenarHeap(int* array, int n) {
+  int i, temp, ob_counter = 0, ret;
+
+  if (!array || n <= 0) return ERR;
+
+  for (i = n - 1; i > 0; i--) {
+    temp = array[0];
+    array[0] = array[i];
+    array[i] = temp;
+    ret = Heapify(array, i, 0);
+    if (ret == ERR) return ERR;
+    ob_counter += ret;
+  }
+  return ob_counter;
+}
+
 int Heapify(int* array, int n, int i) {
-  int ind, temp;
+  int ind, temp, ob_counter = 0;
   if (!array || n <= 0 || i < 0 || i >= n) return ERR;
 
   while (2 * i + 1 < n) {
@@ -97,6 +161,10 @@ int Heapify(int* array, int n, int i) {
     } else {
       ind = max(array, n, i, 2 * i + 1, 2 * i + 1);
     }
+
+    /* Each max() function call has 2 CDC */
+    ob_counter += 2;
+
     if (ind == ERR) return ERR;
 
     if (ind != i) {
@@ -106,41 +174,9 @@ int Heapify(int* array, int n, int i) {
 
       i = ind;
     } else
-      return OK;
+      return ob_counter;
   }
-  return OK;
-}
-
-int CrearHeap(int* array, int n) {
-  int i;
-  if (!array || n <= 0) return ERR;
-
-  for (i = (n / 2) - 1; i >= 0; i--) {
-    Heapify(array, n, i);
-  }
-  return OK;
-}
-
-int OrdenarHeap(int* array, int n) {
-  int i, temp;
-
-  if (!array || n <= 0) return ERR;
-
-  for (i = n - 1; i > 0; i--) {
-    temp = array[0];
-    array[0] = array[i];
-    array[i] = temp;
-    Heapify(array, i, 0);
-  }
-  return OK;
-}
-
-int HeapSort(int* array, int ip, int iu) {
-  if (!array || ip > iu) return ERR;
-
-  CrearHeap(array, iu - ip + 1);
-  OrdenarHeap(array, iu - ip + 1);
-  return OK;
+  return ob_counter;
 }
 
 int merge(int* array, int ip, int iu, int imedio) {
