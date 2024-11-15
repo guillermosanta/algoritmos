@@ -11,6 +11,7 @@
 
 #include "sorting.h"
 
+#include <stdio.h>
 /***************************************************/
 /* Function: SelectSort    Date:  09/27/2024       */
 /* Authors: Javier Moreno & Guillermo Santaolalla  */
@@ -73,4 +74,68 @@ int BubbleSortFlag(int* array, int ip, int iu) {
     }
   }
   return ob_counter;
+}
+
+int max(int* array, int n, int first, int second, int third) {
+  if (!array || n <= 0 || n <= first || n <= second || n <= third) return ERR;
+
+  return array[first] > array[second] ? (array[first] > array[third] ? first : third)
+                                      : (array[second] > array[third] ? second : third);
+}
+
+int Heapify(int* array, int n, int i) {
+  int ind, temp;
+  if (!array || n <= 0 || i < 0 || i >= n) return ERR;
+
+  while (2 * i + 1 < n) {
+    /* Arreglo de ChatGPT?? */
+    if (2 * i + 2 < n) {
+      ind = max(array, n, i, 2 * i + 1, 2 * i + 2);
+    } else {
+      ind = max(array, n, i, 2 * i + 1, 2 * i + 1);
+    }
+    if (ind == ERR) return ERR;
+
+    if (ind != i) {
+      temp = array[i];
+      array[i] = array[ind];
+      array[ind] = temp;
+
+      i = ind;
+    } else
+      return OK;
+  }
+  return OK;
+}
+
+int CrearHeap(int* array, int n) {
+  int i;
+  if (!array || n <= 0) return ERR;
+
+  for (i = (n / 2) - 1; i >= 0; i--) {
+    Heapify(array, n, i);
+  }
+  return OK;
+}
+
+int OrdenarHeap(int* array, int n) {
+  int i, temp;
+
+  if (!array || n <= 0) return ERR;
+
+  for (i = n - 1; i > 0; i--) {
+    temp = array[0];
+    array[0] = array[i];
+    array[i] = temp;
+    Heapify(array, i, 0);
+  }
+  return OK;
+}
+
+int HeapSort(int* array, int ip, int iu) {
+  if (!array || ip > iu) return ERR;
+
+  CrearHeap(array, iu - ip + 1);
+  OrdenarHeap(array, iu - ip + 1);
+  return OK;
 }

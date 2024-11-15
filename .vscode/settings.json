@@ -4,7 +4,8 @@
         "sorting.h": "c",
         "times.h": "c",
         "time.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "random": "c"
     },
     "explorer.excludeGitIgnore": true
 }

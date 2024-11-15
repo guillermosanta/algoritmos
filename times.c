@@ -25,6 +25,16 @@ int cceil(double x) {
   return integer_part;
 }
 
+void pr_arr(int *array, int n) {
+  int i = 0;
+  printf("[");
+  for (i = 0; i < n; i++) {
+    printf("%d", array[i]);
+    if (i + 1 != n) printf(" ");
+  }
+  printf("]\n");
+}
+
 /***************************************************/
 /* Function: average_sorting_time Date: 09/27/2024 */
 /* Authors: Javier Moreno & Guillermo Santaolalla  */
@@ -58,6 +68,7 @@ short average_sorting_time(pfunc_sort method, int n_perms, int N, PTIME_AA ptime
 
     if ((current_ob = method(matrix[i], 0, N - 1)) == ERR) return ERR;
 
+    pr_arr(matrix[i], N);
     if ((end_time = clock()) == ERR) return ERR;
 
     if (i == 0)
@@ -159,7 +170,7 @@ short save_time_table(char *file, PTIME_AA ptime, int n_times) {
   if (!f) return ERR;
 
   for (i = 0; i < n_times; i++) {
-    fprintf(f, "%d  %lf %lf %d  %d\n", ptime[i].N, ptime[i].time, ptime[i].average_ob,
+    fprintf(f, "%d  %f %f %d  %d\n", ptime[i].N, ptime[i].time, ptime[i].average_ob,
             ptime[i].max_ob, ptime[i].min_ob);
   }
 
