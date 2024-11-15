@@ -26,5 +26,7 @@ typedef int (*pfunc_sort)(int*, int, int);
 
 int BubbleSort(int* array, int ip, int iu);
 int BubbleSortFlag(int* array, int ip, int iu);
+int MergeSort(int* array, int ip, int iu);
 int HeapSort(int* array, int ip, int iu);
+
 #endif

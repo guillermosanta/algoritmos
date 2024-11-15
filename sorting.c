@@ -9,6 +9,9 @@
  *
  */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "sorting.h"
 
 #include <stdio.h>
@@ -138,4 +141,68 @@ int HeapSort(int* array, int ip, int iu) {
   CrearHeap(array, iu - ip + 1);
   OrdenarHeap(array, iu - ip + 1);
   return OK;
+}
+
+int merge(int* array, int ip, int iu, int imedio) {
+  int *aux, i, j, k, counter = 0;
+
+  if (!array || ip > iu || ip > imedio || imedio > iu) return ERR;
+
+  if((aux = (int *)calloc((iu-ip+1), sizeof(int)))==NULL) return ERR;
+
+  for(i=ip, j=imedio+1, k=0; i<=imedio && j<=iu; k++, counter ++) {
+    if (array[i]<array[j]) {
+      aux[k] = array[i];
+      i++;
+    } else {
+      aux[k] = array[j];
+      j++;
+    }
+  }
+
+  if(i>imedio) {
+    for(; j<=iu; j++, k++) {
+      aux[k] = array[j];
+    }
+  } else if (j>iu) {
+    for(; i<=imedio; i++, k++) {
+      aux[k] = array[i];
+    }
+  }
+
+  memcpy(array + ip,aux,(iu-ip+1)*sizeof(int));
+
+  free(aux);
+  return counter;
+}
+
+/***************************************************/
+/* Function: MergeSort    Date:  11/09/2024        */
+/* Authors: Javier Moreno & Guillermo Santaolalla  */
+/*                                                 */
+/* Rutine that sorts an array via BubbleSort       */
+/* with a flag that stops if the array is          */
+/* already sorted                                  */
+/*                                                 */
+/* Input:                                          */
+/* int* array: lower limit                         */
+/* int ip: first index of the array                */
+/* int iu: last index of the array                 */
+/* Output:                                         */
+/* int: number of bos done                         */
+/***************************************************/
+int MergeSort(int* array, int ip, int iu) {
+  int mid, n1 = 0, n2 = 0, n3 = 0;
+
+  if (!array || ip > iu) return ERR;
+
+  if (ip == iu) return 0;
+  else {
+    mid = (ip+iu)/2;
+    if((n1 = MergeSort(array, ip, mid))==ERR) return ERR;
+    if((n2 = MergeSort(array, mid+1, iu))==ERR) return ERR;
+    if((n3 = merge(array, ip, iu, mid))==ERR) return ERR;
+    return n1 + n2 + n3;
+  }
+
 }
