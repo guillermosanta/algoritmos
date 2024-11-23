@@ -58,17 +58,55 @@ void potential_key_generator(int *keys, int n_keys, int max)
 
 PDICT init_dictionary (int size, char order)
 {
-	/* your code */
+  PDICT dict;
+
+	if (!size || !order) return NULL;
+  if(!(dict = (PDICT)calloc(1, sizeof(DICT)))) return NULL;
+
+  dict->size = size;
+  if(!(dict->table = (int*)calloc(size, sizeof(int)))) return NULL;
+  dict->order = order;
+  dict->n_data = 0;
+
+  return dict;
 }
 
 void free_dictionary(PDICT pdict)
 {
-	/* your code */
+  if (!pdict) return;
+
+  pdict->size = 0;
+  pdict->n_data = 0;
+  free(pdict->table); 
+
+	free(pdict);
 }
 
 int insert_dictionary(PDICT pdict, int key)
 {
-	/* your code */
+  int j = 0;
+
+	if(!pdict || !key) return ERR;
+  /*We check if the table is full*/
+  if(pdict->n_data == pdict->size) {
+    printf("Table is full\n");
+    return ERR;
+  }
+
+  /*Insertion at the end*/
+  pdict->table[pdict->n_data] = key;
+  pdict->n_data ++;
+
+  if(pdict->order == 0) { /*IF NOT SORTED*/
+    return OK;
+  }
+  /*IF SORTED*/
+  j = pdict->n_data - 1;
+  while (j >= pdict->table[0] && pdict->table[j] > key);
+    pdict->table[j+1] = pdict->table[j]; j--;
+  pdict->table[j+1]= key;
+
+  return OK;
 }
 
 int massive_insertion_dictionary (PDICT pdict,int *keys, int n_keys)
