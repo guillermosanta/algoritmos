@@ -12,20 +12,19 @@
 /* Output: 0: OK, -1: ERR                      */
 /***********************************************/
 
-#include<stdlib.h>
-#include<stdio.h>
-#include<string.h>
-#include<time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 #include "permutations.h"
 #include "search.h"
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
   int i, nob, pos;
   unsigned int key, size;
   PDICT pdict;
-  int *perm;
+  int* perm;
 
   srand(time(NULL));
 
@@ -43,7 +42,7 @@ int main(int argc, char** argv)
   printf("Group: Your group\n");
 
   /* comprueba la linea de comandos */
-  for(i = 1; i < argc; i++) {
+  for (i = 1; i < argc; i++) {
     if (strcmp(argv[i], "-size") == 0) {
       size = atoi(argv[++i]);
     } else if (strcmp(argv[i], "-key") == 0) {
@@ -53,7 +52,7 @@ int main(int argc, char** argv)
     }
   }
 
-  pdict = init_dictionary(size,NOT_SORTED);
+  pdict = init_dictionary(size, NOT_SORTED);
 
   if (pdict == NULL) {
     /* error */
@@ -80,14 +79,14 @@ int main(int argc, char** argv)
     exit(-1);
   }
 
-  nob = search_dictionary(pdict,key,&pos,lin_search);
+  nob = search_dictionary(pdict, key, &pos, lin_search);
 
-  if(nob >= 0) {
-    printf("Key %d found in position %d in %d basic op.\n",key,pos,nob);
-  } else if (nob==NOT_FOUND) {
-    printf("Key %d not found in table\n",key);
+  if (nob >= 0) {
+    printf("Key %d found in position %d in %d basic op.\n", key, pos, nob);
+  } else if (nob == NOT_FOUND) {
+    printf("Key %d not found in table\n", key);
   } else {
-    printf("Error when searching the key %d\n",key);
+    printf("Error when searching the key %d\n", key);
   }
 
   free(perm);
@@ -95,4 +94,3 @@ int main(int argc, char** argv)
 
   return 0;
 }
-
