@@ -79,6 +79,7 @@ int main(int argc, char** argv) {
     exit(-1);
   }
 
+  print_dictionary(pdict);
   nob = search_dictionary(pdict, key, &pos, lin_search);
 
   if (nob >= 0) {

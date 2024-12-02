@@ -12,6 +12,7 @@
 #include "search.h"
 
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 /**
@@ -56,7 +57,7 @@ void potential_key_generator(int *keys, int n_keys, int max) {
 PDICT init_dictionary(int size, char order) {
   PDICT dict;
 
-  if (!size || !order) return NULL;
+  if (size < 0) return NULL;
   if (!(dict = (PDICT)calloc(1, sizeof(DICT)))) return NULL;
 
   dict->size = size;
@@ -104,9 +105,25 @@ int insert_dictionary(PDICT pdict, int key) {
   return OK;
 }
 
-int massive_insertion_dictionary(PDICT pdict, int *keys, int n_keys) { /* your code */ }
+int massive_insertion_dictionary(PDICT pdict, int *keys, int n_keys) {
+  int i, ret;
+  if (!pdict || !keys || n_keys < 0) return ERR;
 
-int search_dictionary(PDICT pdict, int key, int *ppos, pfunc_search method) { /* your code */ }
+  for (i = 0; i < n_keys; i++) {
+    ret = insert_dictionary(pdict, keys[i]);
+    if (ret == ERR) return ERR;
+  }
+
+  return OK;
+}
+
+int search_dictionary(PDICT pdict, int key, int *ppos, pfunc_search method) {
+  int ret;
+  if (!pdict || !ppos || !method) return ERR;
+
+  /* Return ERR if method fails else OK */
+  return method(pdict->table, 0, pdict->size - 1, key, ppos);
+}
 
 int print_dictionary(PDICT pdict) {
   int i = 0;
@@ -118,11 +135,42 @@ int print_dictionary(PDICT pdict) {
     if (i + 1 != pdict->size) printf(", ");
   }
   printf("]\n");
+  return OK;
 }
 
 /* Search functions of the Dictionary ADT */
-int bin_search(int *table, int F, int L, int key, int *ppos) { /* your code */ }
+int bin_search(int *table, int F, int L, int key, int *ppos) {
+  /* TODO: return OBs instead of status */
+  int M;
 
-int lin_search(int *table, int F, int L, int key, int *ppos) { /* your code */ }
+  if (!table || !ppos) return ERR;
+  if (F < L) {
+    *ppos = NOT_FOUND;
+    return OK;
+  }
+
+  M = floor((L + F) / 2);
+  if (table[M] == key) {
+    *ppos = M;
+    return OK;
+  }
+
+  if (table[M] < key) return bin_search(table, F, M - 1, key, ppos);
+  return bin_search(table, M + 1, L, key, ppos);
+}
+
+int lin_search(int *table, int F, int L, int key, int *ppos) {
+  int i;
+  if (!table || !ppos || F > L) return ERR;
+
+  for (i = F; i < L; i++) {
+    if (table[i] == key) {
+      *ppos = i;
+      return OK;
+    }
+  }
+  *ppos = NOT_FOUND;
+  return NOT_FOUND;
+}
 
 int lin_auto_search(int *table, int F, int L, int key, int *ppos) { /* your code */ }
