@@ -17,20 +17,20 @@
 /*        -1 otherwise                                     */
 /***********************************************************/
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
 #include "permutations.h"
 #include "search.h"
 #include "times.h"
 
-int main(int argc, char** argv)
-{
-  int i, num_min,num_max,incr,n_times;
+int main(int argc, char** argv) {
+  int i, num_min, num_max, incr, n_times;
   char name[256];
   short ret;
- 
+
   srand(time(NULL));
 
   if (argc != 11) {
@@ -51,7 +51,7 @@ int main(int argc, char** argv)
   printf("Group: Your group\n");
 
   /* check the command line */
-  for(i = 1; i < argc ; i++) {
+  for (i = 1; i < argc; i++) {
     if (strcmp(argv[i], "-num_min") == 0) {
       num_min = atoi(argv[++i]);
     } else if (strcmp(argv[i], "-num_max") == 0) {
@@ -69,9 +69,9 @@ int main(int argc, char** argv)
   }
 
   /* calculamos los tiempos */
-  ret = generate_search_times(lin_search, uniform_key_generator, NOT_SORTED, 
-                                name, num_min, num_max, incr, n_times);
-  if (ret == ERR) { 
+  ret = generate_search_times(lin_search, uniform_key_generator, NOT_SORTED, name, num_min, num_max,
+                              incr, n_times);
+  if (ret == ERR) {
     printf("Error in function generate_search_times\n");
     exit(-1);
   }
@@ -80,4 +80,3 @@ int main(int argc, char** argv)
 
   return 0;
 }
-
