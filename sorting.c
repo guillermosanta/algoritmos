@@ -230,10 +230,8 @@ int MergeSort(int* array, int ip, int iu) {
 
   if (!array || ip > iu) return ERR;
 
+  if (ip == iu) return 0;
 
-  if (ip == iu)
-    return 0;
-  
   mid = (ip + iu) / 2;
   if ((n1 = MergeSort(array, ip, mid)) == ERR) return ERR;
   if ((n2 = MergeSort(array, mid + 1, iu)) == ERR) return ERR;
