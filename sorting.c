@@ -9,12 +9,11 @@
  *
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include "sorting.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 int CrearHeap(int* array, int n);
 int OrdenarHeap(int* array, int n);
@@ -143,6 +142,7 @@ int OrdenarHeap(int* array, int n) {
     temp = array[0];
     array[0] = array[i];
     array[i] = temp;
+
     ret = Heapify(array, i, 0);
     if (ret == ERR) return ERR;
     ob_counter += ret;
@@ -155,15 +155,13 @@ int Heapify(int* array, int n, int i) {
   if (!array || n <= 0 || i < 0 || i >= n) return ERR;
 
   while (2 * i + 1 < n) {
-    /* Arreglo de ChatGPT?? */
     if (2 * i + 2 < n) {
       ind = max(array, n, i, 2 * i + 1, 2 * i + 2);
+      ob_counter += 2;
     } else {
-      ind = max(array, n, i, 2 * i + 1, 2 * i + 1);
+      ind = array[i] > array[2 * i + 1] ? i : 2 * i + 1;
+      ob_counter++;
     }
-
-    /* Each max() function call has 2 CDC */
-    ob_counter += 2;
 
     if (ind == ERR) return ERR;
 
@@ -184,10 +182,10 @@ int merge(int* array, int ip, int iu, int imedio) {
 
   if (!array || ip > iu || ip > imedio || imedio > iu) return ERR;
 
-  if((aux = (int *)calloc((iu-ip+1), sizeof(int)))==NULL) return ERR;
+  if ((aux = (int*)calloc((iu - ip + 1), sizeof(int))) == NULL) return ERR;
 
-  for(i=ip, j=imedio+1, k=0; i<=imedio && j<=iu; k++, counter ++) {
-    if (array[i]<array[j]) {
+  for (i = ip, j = imedio + 1, k = 0; i <= imedio && j <= iu; k++, counter++) {
+    if (array[i] < array[j]) {
       aux[k] = array[i];
       i++;
     } else {
@@ -196,17 +194,17 @@ int merge(int* array, int ip, int iu, int imedio) {
     }
   }
 
-  if(i>imedio) {
-    for(; j<=iu; j++, k++) {
+  if (i > imedio) {
+    for (; j <= iu; j++, k++) {
       aux[k] = array[j];
     }
-  } else if (j>iu) {
-    for(; i<=imedio; i++, k++) {
+  } else if (j > iu) {
+    for (; i <= imedio; i++, k++) {
       aux[k] = array[i];
     }
   }
 
-  memcpy(array + ip,aux,(iu-ip+1)*sizeof(int));
+  memcpy(array + ip, aux, (iu - ip + 1) * sizeof(int));
 
   free(aux);
   return counter;
@@ -232,12 +230,13 @@ int MergeSort(int* array, int ip, int iu) {
 
   if (!array || ip > iu) return ERR;
 
-  if (ip == iu) return 0;
+
+  if (ip == iu)
+    return 0;
   
-  mid = (ip+iu)/2;
-  if((n1 = MergeSort(array, ip, mid))==ERR) return ERR;
-  if((n2 = MergeSort(array, mid+1, iu))==ERR) return ERR;
-  if((n3 = merge(array, ip, iu, mid))==ERR) return ERR;
+  mid = (ip + iu) / 2;
+  if ((n1 = MergeSort(array, ip, mid)) == ERR) return ERR;
+  if ((n2 = MergeSort(array, mid + 1, iu)) == ERR) return ERR;
+  if ((n3 = merge(array, ip, iu, mid)) == ERR) return ERR;
   return n1 + n2 + n3;
-  
 }

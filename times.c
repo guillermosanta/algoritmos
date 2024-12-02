@@ -57,7 +57,6 @@ short average_sorting_time(pfunc_sort method, int n_perms, int N, PTIME_AA ptime
     if ((start_time = clock()) == ERR) return ERR;
 
     if ((current_ob = method(matrix[i], 0, N - 1)) == ERR) return ERR;
-
     if ((end_time = clock()) == ERR) return ERR;
 
     if (i == 0)

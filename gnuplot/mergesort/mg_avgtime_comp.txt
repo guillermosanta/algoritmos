@@ -1,0 +1,5 @@
+set title "MergeSort - Avg Time v. N" 
+set xlabel "N"
+set ylabel "Avg Time (s)" 
+set xrange[1:100000]
+plot "mg.txt" title "", (7.5e-9)*x*(log(x)/log(2)) title "kNlogN"
