@@ -1,0 +1,15 @@
+./exercise5 -num_min 1 -num_max 100000 -incr 1000 -numP 200 -outputFile results.txt
+
+set terminal png
+set output "BubbleSortFlag_AvgOBs_Comparison.png"
+
+
+gnuplot
+set terminal png
+set output "MergeSortAvg_Time.png"
+
+set title "MergeSort - Avg Time v. N" 
+set xlabel "N"
+set ylabel "Avg Time (s)" 
+set xrange[0:100000]
+plot "mg.txt" title ""

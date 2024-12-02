@@ -1,0 +1,6 @@
+gnuplot
+set title "HeapSort vs. MergeSort - Avg Time v. N" 
+set xlabel "N"
+set ylabel "Avg Time (s)" 
+set xrange[0:100000]
+plot "hp.txt" using 1:2 title "HeapSort", "mg.txt" using 1:2 title "MergeSort"
