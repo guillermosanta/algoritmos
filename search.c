@@ -91,14 +91,14 @@ int insert_dictionary(PDICT pdict, int key) {
   pdict->table[pdict->n_data] = key;
   pdict->n_data++;
 
-  if (pdict->order == 0) { /*IF NOT SORTED*/
-    return OK;
+  if (pdict->order == NOT_SORTED) return OK;
+
+  /*if sorted */
+  j = pdict->n_data - 2;
+  while (j >= 0 && pdict->table[j] > key) {
+    pdict->table[j + 1] = pdict->table[j];
+    j--;
   }
-  /*IF SORTED*/
-  j = pdict->n_data - 1;
-  while (j >= pdict->table[0] && pdict->table[j] > key);
-  pdict->table[j + 1] = pdict->table[j];
-  j--;
   pdict->table[j + 1] = key;
 
   return OK;
@@ -107,6 +107,18 @@ int insert_dictionary(PDICT pdict, int key) {
 int massive_insertion_dictionary(PDICT pdict, int *keys, int n_keys) { /* your code */ }
 
 int search_dictionary(PDICT pdict, int key, int *ppos, pfunc_search method) { /* your code */ }
+
+int print_dictionary(PDICT pdict) {
+  int i = 0;
+  if (!pdict) return ERR;
+
+  printf("[");
+  for (; i < pdict->size; i++) {
+    printf("%d", pdict->table[i]);
+    if (i + 1 != pdict->size) printf(", ");
+  }
+  printf("]\n");
+}
 
 /* Search functions of the Dictionary ADT */
 int bin_search(int *table, int F, int L, int key, int *ppos) { /* your code */ }

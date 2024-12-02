@@ -41,6 +41,7 @@ void free_dictionary(PDICT pdict);
 int insert_dictionary(PDICT pdict, int key);
 int massive_insertion_dictionary(PDICT pdict, int *keys, int n_keys);
 int search_dictionary(PDICT pdict, int key, int *ppos, pfunc_search method);
+int print_dictionary(PDICT pdict);
 
 /* Search functions for the Dictionary ADT */
 int bin_search(int *table, int F, int L, int key, int *ppos);
