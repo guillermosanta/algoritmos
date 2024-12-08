@@ -79,46 +79,52 @@ void free_dictionary(PDICT pdict) {
 }
 
 int insert_dictionary(PDICT pdict, int key) {
-  int j = 0;
+  int j = 0, obs = 0;
 
   if (!pdict || !key) return ERR;
   /*We check if the table is full*/
   if (pdict->n_data == pdict->size) {
     printf("Table is full\n");
-    return ERR;
+    return obs;
   }
 
   /*Insertion at the end*/
+  obs ++; /*No lo tengo claro*/
   pdict->table[pdict->n_data] = key;
   pdict->n_data++;
 
-  if (pdict->order == NOT_SORTED) return OK;
+  if (pdict->order == NOT_SORTED) return obs;
 
   /*if sorted */
   j = pdict->n_data - 2;
   while (j >= 0 && pdict->table[j] > key) {
+    obs++;
     pdict->table[j + 1] = pdict->table[j];
     j--;
   }
+  obs++; /*Ultima comprobacion fallida, tampoco lo tengo claro*/
   pdict->table[j + 1] = key;
 
-  return OK;
+  return obs;
 }
 
 int massive_insertion_dictionary(PDICT pdict, int *keys, int n_keys) {
-  int i, ret;
+  int i, ret, obs = 0;
   if (!pdict || !keys || n_keys < 0) return ERR;
 
   for (i = 0; i < n_keys; i++) {
+    obs ++;
     ret = insert_dictionary(pdict, keys[i]);
-    if (ret == ERR) return ERR;
+    if (ret == 0) return obs;
+    obs += ret;
   }
 
-  return OK;
+  return obs;
 }
 
 int search_dictionary(PDICT pdict, int key, int *ppos, pfunc_search method) {
   int ret;
+
   if (!pdict || !ppos || !method) return ERR;
 
   /* Return ERR if method fails else OK */
@@ -126,51 +132,79 @@ int search_dictionary(PDICT pdict, int key, int *ppos, pfunc_search method) {
 }
 
 int print_dictionary(PDICT pdict) {
-  int i = 0;
+  int i = 0, obs = 0;
+
   if (!pdict) return ERR;
 
   printf("[");
   for (; i < pdict->size; i++) {
+    obs++;
     printf("%d", pdict->table[i]);
     if (i + 1 != pdict->size) printf(", ");
   }
   printf("]\n");
-  return OK;
+  return obs;
 }
 
 /* Search functions of the Dictionary ADT */
 int bin_search(int *table, int F, int L, int key, int *ppos) {
   /* TODO: return OBs instead of status */
-  int M;
+  int M, obs = 0;
 
-  if (!table || !ppos) return ERR;
+  if (!table || !ppos) return obs;
+
+  /*obs ++; /*No lo tengo claro*/
   if (F < L) {
     *ppos = NOT_FOUND;
-    return OK;
+    return obs;
   }
 
   M = floor((L + F) / 2);
+  obs++;
   if (table[M] == key) {
     *ppos = M;
-    return OK;
+    return obs;
   }
 
-  if (table[M] < key) return bin_search(table, F, M - 1, key, ppos);
-  return bin_search(table, M + 1, L, key, ppos);
+  if (table[M] < key) return obs + bin_search(table, F, M - 1, key, ppos);
+  return obs + bin_search(table, M + 1, L, key, ppos);
 }
 
 int lin_search(int *table, int F, int L, int key, int *ppos) {
-  int i;
+  int i, obs = 0;
+
   if (!table || !ppos || F > L) return ERR;
 
   for (i = F; i < L; i++) {
+    obs++;
     if (table[i] == key) {
       *ppos = i;
-      return OK;
+      return obs;
     }
   }
   *ppos = NOT_FOUND;
-  return NOT_FOUND;
+  return obs;
 }
 
-int lin_auto_search(int *table, int F, int L, int key, int *ppos) { /* your code */ }
+int lin_auto_search(int *table, int F, int L, int key, int *ppos) { 
+  int obs = 0, temp;
+
+  if (!table || !ppos || F > L) return ERR;
+
+  for (int i = F; i <= L; i++) {
+    obs++;
+    if (table[i] == key) {
+      *ppos = i;
+      /*Autoorganización: intercambio si no está en la primera posición*/
+      if (i > F) {
+        temp = table[i];
+        table[i] = table[i - 1];
+        table[i - 1] = temp;
+      }
+      return obs;
+    }
+  }
+
+  *ppos = NOT_FOUND;
+  return obs;
+}

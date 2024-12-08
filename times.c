@@ -18,6 +18,7 @@
 
 #include "permutations.h"
 #include "sorting.h"
+#include "search.h"
 
 int cceil(double x) {
   int integer_part = (int)x;
@@ -163,5 +164,114 @@ short save_time_table(char *file, PTIME_AA ptime, int n_times) {
   }
 
   fclose(f);
+  return OK;
+}
+
+/***************************************************/
+/* Function: average_search_time Date: 19/11/2024  */
+/* Authors: Javier Moreno & Guillermo Santaolalla  */
+/*                                                 */
+/* Rutine                                          */
+/*                                                 */
+/*                                                 */
+/* Input:                                          */
+/* pfunc_search metodo                             */
+/* pfunc_key_generator generator                   */
+/* int order                                       */
+/* int N                                           */
+/* int n_times                                     */
+/* PTIME_AA ptime                                  */
+/* Output:                                         */
+/* short: OK or ERR                                */
+/***************************************************/
+short average_search_time(pfunc_search metodo, pfunc_key_generator generator, int order, int N,
+                          int n_times, PTIME_AA ptime) {
+  PDICT pdict = NULL;
+  int *perm = NULL;
+  int *keys = NULL;
+  int i, j, obs, total_obs = 0;
+  int min_ob = __INT_MAX__, max_ob = 0;
+  clock_t start, end;
+
+  if(!metodo || !generator || N<=0 || n_times<=0 || !ptime) return ERR;
+
+  /*7*/
+  ptime->N = N;
+  ptime->n_elems = N*n_times;
+
+  /*1*/
+  pdict = init_dictionary(N, order);
+  if (!pdict) return ERR;
+
+  /*2*/
+  perm = generate_perm(N);
+  if (!perm) {
+    free_dictionary(pdict);
+    return ERR;
+  }
+
+  /*3*/
+  if (massive_insertion_dictionary(pdict, perm, N) == ERR) {
+    free(perm);
+    free_dictionary(pdict);
+    return ERR;
+  }
+
+  /*4*/
+  keys = (int *)calloc(N * n_times, sizeof(int));
+  if (!keys) {
+    free(perm);
+    free_dictionary(pdict);
+    return ERR;
+  }
+
+  /*5*/
+  generator(keys, N * n_times, N); /*== ERR) {
+    free(perm);
+    free(keys);
+    free_dictionary(pdict);
+    return ERR;
+  }*/
+
+  /*6*/
+  if ((start = clock()) == ERR) {
+    free(perm);
+    free(keys);
+    free_dictionary(pdict);
+    return ERR;
+  }
+  for (i = 0; i < n_times; i++) {
+    for (j = 0; j < N; j++) {
+      obs = metodo(pdict->table, 0, pdict->n_data - 1, keys[i * N + j], NULL);
+      if (obs == ERR) {
+        free(perm);
+        free(keys);
+        free_dictionary(pdict);
+        return ERR;
+      }
+          
+      total_obs += obs;
+      if (obs < min_ob) min_ob = obs;
+      if (obs > max_ob) max_ob = obs;
+    }
+  }
+  if ((end = clock()) == ERR) {
+    free(perm);
+    free(keys);
+    free_dictionary(pdict);
+    return ERR;
+  }
+
+  /*7*/
+  ptime->time = ((double)(end - start)) / CLOCKS_PER_SEC;
+  ptime->average_ob = (double)total_obs / (N * n_times);
+  ptime->min_ob = min_ob;
+  ptime->max_ob = max_ob;
+
+  /*8*/
+  free(perm);
+  free(keys);
+  free_dictionary(pdict);
+
   return OK;
 }
