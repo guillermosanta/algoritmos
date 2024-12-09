@@ -85,11 +85,10 @@ int insert_dictionary(PDICT pdict, int key) {
   /*We check if the table is full*/
   if (pdict->n_data == pdict->size) {
     printf("Table is full\n");
-    return obs;
+    return ERR;
   }
 
   /*Insertion at the end*/
-  obs++; /*No lo tengo claro*/
   pdict->table[pdict->n_data] = key;
   pdict->n_data++;
 
@@ -102,7 +101,7 @@ int insert_dictionary(PDICT pdict, int key) {
     pdict->table[j + 1] = pdict->table[j];
     j--;
   }
-  obs++; /*Ultima comprobacion fallida, tampoco lo tengo claro*/
+  obs++; /*Ultima comprobacion fallida*/
   pdict->table[j + 1] = key;
 
   return obs;
@@ -113,9 +112,8 @@ int massive_insertion_dictionary(PDICT pdict, int *keys, int n_keys) {
   if (!pdict || !keys || n_keys < 0) return ERR;
 
   for (i = 0; i < n_keys; i++) {
-    obs++;
     ret = insert_dictionary(pdict, keys[i]);
-    if (ret == 0) return obs;
+    if (ret == ERR) return ERR;
     obs += ret;
   }
 
@@ -146,7 +144,6 @@ int print_dictionary(PDICT pdict) {
 
 /* Search functions of the Dictionary ADT */
 int bin_search(int *table, int F, int L, int key, int *ppos) {
-  /* TODO: return OBs instead of status */
   int M, obs = 0;
 
   if (!table || !ppos) return obs;
