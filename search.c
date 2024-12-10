@@ -89,7 +89,7 @@ int insert_dictionary(PDICT pdict, int key) {
   }
 
   /*Insertion at the end*/
-  obs ++; /*No lo tengo claro*/
+  obs++; /*No lo tengo claro*/
   pdict->table[pdict->n_data] = key;
   pdict->n_data++;
 
@@ -113,7 +113,7 @@ int massive_insertion_dictionary(PDICT pdict, int *keys, int n_keys) {
   if (!pdict || !keys || n_keys < 0) return ERR;
 
   for (i = 0; i < n_keys; i++) {
-    obs ++;
+    obs++;
     ret = insert_dictionary(pdict, keys[i]);
     if (ret == 0) return obs;
     obs += ret;
@@ -123,8 +123,6 @@ int massive_insertion_dictionary(PDICT pdict, int *keys, int n_keys) {
 }
 
 int search_dictionary(PDICT pdict, int key, int *ppos, pfunc_search method) {
-  int ret;
-
   if (!pdict || !ppos || !method) return ERR;
 
   /* Return ERR if method fails else OK */
@@ -186,12 +184,12 @@ int lin_search(int *table, int F, int L, int key, int *ppos) {
   return obs;
 }
 
-int lin_auto_search(int *table, int F, int L, int key, int *ppos) { 
-  int obs = 0, temp;
+int lin_auto_search(int *table, int F, int L, int key, int *ppos) {
+  int i, obs = 0, temp;
 
   if (!table || !ppos || F > L) return ERR;
 
-  for (int i = F; i <= L; i++) {
+  for (i = F; i <= L; i++) {
     obs++;
     if (table[i] == key) {
       *ppos = i;

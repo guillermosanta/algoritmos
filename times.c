@@ -17,8 +17,8 @@
 #include <time.h>
 
 #include "permutations.h"
-#include "sorting.h"
 #include "search.h"
+#include "sorting.h"
 
 int cceil(double x) {
   int integer_part = (int)x;
@@ -193,11 +193,11 @@ short average_search_time(pfunc_search metodo, pfunc_key_generator generator, in
   int min_ob = __INT_MAX__, max_ob = 0;
   clock_t start, end;
 
-  if(!metodo || !generator || N<=0 || n_times<=0 || !ptime) return ERR;
+  if (!metodo || !generator || N <= 0 || n_times <= 0 || !ptime) return ERR;
 
   /*7*/
   ptime->N = N;
-  ptime->n_elems = N*n_times;
+  ptime->n_elems = N * n_times;
 
   /*1*/
   pdict = init_dictionary(N, order);
@@ -249,7 +249,7 @@ short average_search_time(pfunc_search metodo, pfunc_key_generator generator, in
         free_dictionary(pdict);
         return ERR;
       }
-          
+
       total_obs += obs;
       if (obs < min_ob) min_ob = obs;
       if (obs > max_ob) max_ob = obs;
@@ -273,5 +273,40 @@ short average_search_time(pfunc_search metodo, pfunc_key_generator generator, in
   free(keys);
   free_dictionary(pdict);
 
+  return OK;
+}
+
+short generate_search_times(pfunc_search method, pfunc_key_generator generator, int order,
+                            char *file, int num_min, int num_max, int incr, int n_times) {
+  PTIME_AA ptime;
+  short ret;
+  int i;
+
+  if (!method || !generator || (order != SORTED && order != NOT_SORTED) || !file ||
+      num_min > num_max || incr <= 0 || n_times <= 0)
+    return ERR;
+
+  ptime = (PTIME_AA)malloc((int)cceil((num_max - num_min + 1) / (double)incr) * sizeof(TIME_AA));
+  if (!ptime) {
+    printf("Error allocating memory\n");
+    return ERR;
+  }
+
+  for (i = num_min; i <= num_max; i += incr) {
+    ret = average_search_time(method, generator, order, i, n_times, ptime + (i - num_min) / incr);
+    if (ret == ERR) {
+      printf("ERror in average_search_time for i = %d\n", i);
+      free(ptime);
+      return ERR;
+    }
+  }
+
+  ret = save_time_table(file, ptime, n_times);
+  if (ret == ERR) {
+    free(ptime);
+    return ERR;
+  }
+
+  free(ptime);
   return OK;
 }
