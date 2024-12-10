@@ -1,11 +1,13 @@
 {
     "files.associations": {
+        "*.svelte": "svelte",
         "permutations.h": "c",
         "sorting.h": "c",
         "times.h": "c",
         "time.h": "c",
         "stdio.h": "c",
-        "random": "c"
+        "random": "c",
+        "stdlib.h": "c"
     },
     "explorer.excludeGitIgnore": true
 }
