@@ -47,11 +47,14 @@ short average_search_time(pfunc_search metodo, pfunc_key_generator generator, in
   PDICT pdict = NULL;
   int *perm = NULL;
   int *keys = NULL;
-  int i, j, obs, total_obs = 0;
+  int i, j, ppos, obs, total_obs = 0;
   int min_ob = __INT_MAX__, max_ob = 0;
   clock_t start, end;
 
-  if (!metodo || !generator || N <= 0 || n_times <= 0 || !ptime) return ERR;
+  if (!metodo || !generator || N <= 0 || n_times <= 0 || !ptime) {
+    printf("Error with params\n");
+    return ERR;
+  }
 
   /*7*/
   ptime->N = N;
@@ -59,17 +62,22 @@ short average_search_time(pfunc_search metodo, pfunc_key_generator generator, in
 
   /*1*/
   pdict = init_dictionary(N, order);
-  if (!pdict) return ERR;
+  if (!pdict) {
+    printf("Error initializing dictionary of size %d\n", N);
+    return ERR;
+  };
 
   /*2*/
   perm = generate_perm(N);
   if (!perm) {
+    printf("Error generating perm of size %d\n", N);
     free_dictionary(pdict);
     return ERR;
   }
 
   /*3*/
   if (massive_insertion_dictionary(pdict, perm, N) == ERR) {
+    printf("Error inserting keys into dict of size %d\n", N);
     free(perm);
     free_dictionary(pdict);
     return ERR;
@@ -78,6 +86,7 @@ short average_search_time(pfunc_search metodo, pfunc_key_generator generator, in
   /*4*/
   keys = (int *)calloc(N * n_times, sizeof(int));
   if (!keys) {
+    printf("Error allocating memory for keys\n");
     free(perm);
     free_dictionary(pdict);
     return ERR;
@@ -93,27 +102,37 @@ short average_search_time(pfunc_search metodo, pfunc_key_generator generator, in
 
   /*6*/
   if ((start = clock()) == ERR) {
+    printf("Error starting clock\n");
     free(perm);
     free(keys);
     free_dictionary(pdict);
     return ERR;
   }
+
   for (i = 0; i < n_times; i++) {
     for (j = 0; j < N; j++) {
-      obs = metodo(pdict->table, 0, pdict->n_data - 1, keys[i * N + j], NULL);
+      obs = metodo(pdict->table, 0, pdict->n_data - 1, keys[i * N + j], &ppos);
       if (obs == ERR) {
+        printf("Error counting OBs from method\n");
         free(perm);
         free(keys);
         free_dictionary(pdict);
         return ERR;
       }
-
+      if (ppos == NOT_FOUND) {
+        printf("Key not found in dict!\n");
+        free(perm);
+        free(keys);
+        free_dictionary(pdict);
+        return ERR;
+      }
       total_obs += obs;
       if (obs < min_ob) min_ob = obs;
       if (obs > max_ob) max_ob = obs;
     }
   }
   if ((end = clock()) == ERR) {
+    printf("Error stopping clock\n");
     free(perm);
     free(keys);
     free_dictionary(pdict);
@@ -153,13 +172,13 @@ short generate_search_times(pfunc_search method, pfunc_key_generator generator, 
   for (i = num_min; i <= num_max; i += incr) {
     ret = average_search_time(method, generator, order, i, n_times, ptime + (i - num_min) / incr);
     if (ret == ERR) {
-      printf("ERror in average_search_time for i = %d\n", i);
+      printf("Error in average_search_time for i = %d\n", i);
       free(ptime);
       return ERR;
     }
   }
 
-  ret = save_time_table(file, ptime, n_times);
+  ret = save_time_table(file, ptime, (int)cceil((num_max - num_min + 1) / (double)incr));
   if (ret == ERR) {
     free(ptime);
     return ERR;

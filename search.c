@@ -170,10 +170,11 @@ int lin_search(int *table, int F, int L, int key, int *ppos) {
 
   if (!table || !ppos || F > L) return ERR;
 
-  for (i = F; i < L; i++) {
+  for (i = F; i <= L; i++) {
     obs++;
     if (table[i] == key) {
       *ppos = i;
+
       return obs;
     }
   }
