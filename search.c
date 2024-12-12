@@ -149,7 +149,7 @@ int bin_search(int *table, int F, int L, int key, int *ppos) {
   if (!table || !ppos) return obs;
 
   /*obs ++; /*No lo tengo claro*/
-  if (F < L) {
+  if (F > L) {
     *ppos = NOT_FOUND;
     return obs;
   }
@@ -161,7 +161,7 @@ int bin_search(int *table, int F, int L, int key, int *ppos) {
     return obs;
   }
 
-  if (table[M] < key) return obs + bin_search(table, F, M - 1, key, ppos);
+  if (key < table[M]) return obs + bin_search(table, F, M - 1, key, ppos);
   return obs + bin_search(table, M + 1, L, key, ppos);
 }
 

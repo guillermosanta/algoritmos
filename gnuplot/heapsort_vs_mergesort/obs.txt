@@ -1,6 +1,0 @@
-gnuplot
-set title "HeapSort vs. MergeSort - OBs v. N" 
-set xlabel "N"
-set ylabel "OBs" 
-set xrange[0:100]
-plot "hp_casos.txt" using 1:3 title "HeapS medio", "hp_casos.txt" using 1:4 title "HeapS peor","hp_casos.txt" using 1:5 title "HeapS mejor","mg_casos.txt" using 1:3 title "MergeS medio", "mg_casos.txt" using 1:4 title "MergeS peor","mg_casos.txt" using 1:5 title "MergeS mejor"

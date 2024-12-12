@@ -1,9 +1,0 @@
-gnuplot
-set terminal png
-set output "HeapSort_OBs.png"
-
-set title "HeapSort - Caso Medio, Mejor y Peor v. N" 
-set xlabel "N"
-set ylabel "OBs" 
-set xrange[0:100]
-plot "hp_casos.txt" using 1:3 title "Caso medio", "hp_casos.txt" using 1:4 title "Caso mejor","hp_casos.txt" using 1:5 title "Caso peor", 1.5*x*(log(x)/log(2)) title "KNlogN"
