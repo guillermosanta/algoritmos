@@ -140,7 +140,7 @@ short average_search_time(pfunc_search metodo, pfunc_key_generator generator, in
   }
 
   /*7*/
-  ptime->time = ((double)(end - start)) / CLOCKS_PER_SEC;
+  ptime->time = ((double)(end - start)) / (N * n_times * CLOCKS_PER_SEC);
   ptime->average_ob = (double)total_obs / (N * n_times);
   ptime->min_ob = min_ob;
   ptime->max_ob = max_ob;
